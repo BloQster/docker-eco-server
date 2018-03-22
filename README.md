@@ -16,5 +16,5 @@ For example: <br/>
 ## Storage:
 The config (```/bloqster/config```) and the storage (```/bloqster/storage```) folders are persisted within the volume ```/bloqster```. Thus, you just need to add a volume for ```/bloqster``` and you should be fine.
 
-Have Fun!
+Have Fun!<br/>
 Supportlik
