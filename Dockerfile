@@ -26,19 +26,17 @@ RUN apt-get update \
 	&& rm -r /var/lib/apt/lists/*
 
 
-
 #download eco server
 RUN mkdir -p ${ECO_SERVER_FILES} \
 	&& cd ${ECO_SERVER_FILES} \
 	&& wget https://s3-us-west-2.amazonaws.com/eco-releases/EcoServer_v${ECO_VERSION}.zip \
 	&& unzip EcoServer_v${ECO_VERSION}.zip \
-	&& rm EcoServer_v${ECO_VERSION}.zip \
-	&& chown -R ${ECO_SERVER_USER}:${ECO_SERVER_USER} ${ECO_SERVER_FILES} \
+	&& rm EcoServer_v${ECO_VERSION}.zip
+#create folders and move files
+RUN chown -R ${ECO_SERVER_USER}:${ECO_SERVER_USER} ${ECO_SERVER_FILES} \
 	&& mkdir -p ${ECO_STORAGE_FOLDER} \
-	&& mkdir -p ${ECO_CONFIG_FOLDER}
-
-# move files	
-RUN mv ${ECO_SERVER_FILES}/Storage/* ${ECO_STORAGE_FOLDER} \
+	&& mkdir -p ${ECO_CONFIG_FOLDER} \
+	&& mv ${ECO_SERVER_FILES}/Storage/* ${ECO_STORAGE_FOLDER} \
 	&& mv ${ECO_SERVER_FILES}/Configs/* ${ECO_CONFIG_FOLDER} \
 	&& rm -R ${ECO_SERVER_FILES}/Storage \
 	&& rm -R ${ECO_SERVER_FILES}/Configs
@@ -56,6 +54,6 @@ VOLUME ${DATA_FOLDER}
 ADD ./scripts/start.sh /
 RUN chmod 755 /start.sh \
 	&& chown ${ECO_SERVER_USER}:${ECO_SERVER_USER} /start.sh
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["sh"]
 CMD ["/start.sh"]
 #have fun!
